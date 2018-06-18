@@ -18,25 +18,40 @@
      <a href="food.blade.php">与えてきたエサ</a>
      <br>
       {!! link_to_route('game.create', '新規Usersakusei') !!}
-      <?php var_dump ($a[0]);?>
       <br>
         @foreach ($mono as $mono)
             <li>ID:{{ $mono->userid}}
-             {!! link_to_route('game.show', $mono->id, ['mono' => $mono->id]) !!}
-             <br>
+            {!! link_to_route('game.show', $mono->id, ['mono' => $mono->id]) !!}
+            <br>
+            {!! Form::model($mono, ['route' => ['game.destroy', $mono->id], 'method' => 'delete']) !!}
+            {!! Form::submit('削除') !!}
+            {!! Form::close() !!}
             </li>
         @endforeach
-     <form method="post">
-         {{ csrf_field() }}
- 名前: <input type="text" name="name" />
- 年齢: <input type="text" name="age" />
- <input type="submit" />
-</form>
-
-あなたは、<?php 
- if (isset($_POST['age'])) {
- echo (int)$_POST['age']; 
- }
- ?> 歳です
+       
+        <?php
+            var_dump($a);
+            for($i=0;$i<count($a);$i++){
+                for($j=$i;$j<count($a);$j++){
+                    if($i==$j){
+                        continue;
+                    }
+                    //$matchpercent="0";
+                    $jibun=json_decode($a[$i]["mono"]);
+                    $aite=json_decode($a[$j]["mono"]);
+                    foreach($jibun as $q){
+                        foreach($aite as $w){
+                            //print (" jibun-" . $q . " aite-" . $w);
+                            if($q==$w){
+                                print ("match");
+                                print (" jibun-" . $q . " aite-" . $w);
+                            }
+                        }
+                    }
+                }
+            }
+            //var_dump($a);
+            //print (count($a));
+        ?>
     </body>
 </html>

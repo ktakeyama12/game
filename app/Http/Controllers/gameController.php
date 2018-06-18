@@ -70,8 +70,6 @@ class gameController extends Controller
         //var_dump($request->mono);exit;
         array_push($b, $request->mono);
         $mono->mono=json_encode($b);
-        
-        //$mono->mono = $request->mono;
         $mono->save();
         return view('game.show', [
             'mono' => $mono,
@@ -80,8 +78,8 @@ class gameController extends Controller
     }
     public function destroy($id)
     {
-        $category = Category::find($id);
-        $category->delete();
+        $mono = Mono::find($id);
+        $mono->delete();
 
         return redirect('/');
     }
