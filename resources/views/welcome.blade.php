@@ -13,9 +13,8 @@
         <img src="rich.JPG"></img>
         <form method='POST'>
         <input type="text" name="food">
-        <input type="submit" value="feed">
+        <input type="submit" name="_token" value="{{ csrf_token() }}"> to {{ csrf_field() }}
      </form>
-     
      <a href="food.blade.php">与えてきたエサ</a>
      <br>
       {!! link_to_route('game.create', '新規Usersakusei') !!}
@@ -23,8 +22,21 @@
       <br>
         @foreach ($mono as $mono)
             <li>ID:{{ $mono->userid}}
+             {!! link_to_route('game.show', $mono->id, ['mono' => $mono->id]) !!}
+             <br>
             </li>
-            
         @endforeach
+     <form method="post">
+         {{ csrf_field() }}
+ 名前: <input type="text" name="name" />
+ 年齢: <input type="text" name="age" />
+ <input type="submit" />
+</form>
+
+あなたは、<?php 
+ if (isset($_POST['age'])) {
+ echo (int)$_POST['age']; 
+ }
+ ?> 歳です
     </body>
 </html>

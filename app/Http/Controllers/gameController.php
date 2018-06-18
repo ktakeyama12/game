@@ -27,10 +27,11 @@ class gameController extends Controller
     
     public function show($id)
     {
-        $categories = Category::find($id);
-
-        return view('categories.show', [
-            'categories' => $categories,
+        $mono = Mono::find($id);
+        //$a = $mono->toArray();
+        return view('game.show', [
+            'mono' => $mono,
+            //'a' => $a
         ]);
     }
     
@@ -47,26 +48,35 @@ class gameController extends Controller
         
         $mono = new Mono;
         $mono->userid = $request->userid;
-        $mono->mono = $request->mono;
+        $b = json_encode(array($request->mono));
+        $mono->mono = $b;
+        //$mono->mono = $request->mono;
         $mono->save();
 
         return redirect('/');
     }
     public function edit($id)
     {
-        $category = Category::find($id);
+        $mono = Mono::find($id);
 
-        return view('categories.edit', [
-            'categories' => $categories,
+        return view('game.edit', [
+            'mono' => $mono,
         ]);
     }
     public function update(Request $request, $id)
     {
-        $category = Message::find($id);
-        $category->content = $request->content;
-        $category->save();
-
-        return redirect('/');
+        $mono = Mono::find($id);
+        $b=json_decode($mono->mono);
+        //var_dump($request->mono);exit;
+        array_push($b, $request->mono);
+        $mono->mono=json_encode($b);
+        
+        //$mono->mono = $request->mono;
+        $mono->save();
+        return view('game.show', [
+            'mono' => $mono,
+        ]);
+        //return view('game.update');
     }
     public function destroy($id)
     {
